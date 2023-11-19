@@ -1,0 +1,30 @@
+version: '3.6'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: BookService
+      POSTGRES_USER: Masum
+      POSTGRES_PASSWORD: Masum044
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://Masum:Masum044@postgres:5432/BookService
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
